@@ -4,7 +4,7 @@
 
 export const environment = {
   production          :   false,
-  ES_HOST             :   'http://192.168.1.86:9200',
+  ES_HOST             :   'http://elasticsearch1:9200',
   RESULTS_PER_PAGE    :   10
 };
 

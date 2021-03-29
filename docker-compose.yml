@@ -71,30 +71,30 @@ services:
     environment:
       - ES_URL=http://elasticsearch1:9200
 
-
+# do not need fscrawlerrest
   # cannot name service with underscores
   # https://github.com/dadoonet/fscrawler/issues/474
-  fscrawlerrest:
-    build:
-      context: ${PWD}
+#  fscrawlerrest:
+#    build:
+#      context: ${PWD}
       # alpine
       # context: ${PWD}/alpine
 
-    volumes:
+#    volumes:
     #- ${PWD}/test/data/:/usr/share/fscrawler/data/:ro
-    - /home/alice/ownCloud/:/usr/share/fscrawler/data/:ro
-    - ${PWD}/config/fscrawler_rest:/usr/share/fscrawler/config-mount/fscrawler_rest
+#    - /home/alice/ownCloud/:/usr/share/fscrawler/data/:ro
+#    - ${PWD}/config/fscrawler_rest:/usr/share/fscrawler/config-mount/fscrawler_rest
     # check note above in fscrawler.depends_on
-    depends_on:
-      elasticsearch1:
-        condition: service_healthy
-    ports:
-      - "8890:8080"
-    command:
-      - --trace
-      - --config_dir
-      - /usr/share/fscrawler/config
-      - --loop
-      - "0"
-      - --rest
-      - fscrawler_rest
+#    depends_on:
+#      elasticsearch1:
+#        condition: service_healthy
+#    ports:
+#      - "8890:8080"
+#    command:
+#      - --trace
+#      - --config_dir
+#      - /usr/share/fscrawler/config
+#      - --loop
+#      - "0"
+#      - --rest
+#      - fscrawler_rest

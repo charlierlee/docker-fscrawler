@@ -5,11 +5,24 @@
         <a mat-button>About</a>
     </mat-toolbar-row>
 </mat-toolbar>
-<form class="example-form" >
-    <mat-form-field class="example-full-width" style="width: 100%">
-        <input (change)="search($event, 'docker-compose', 1)" type="text" placeholder="Search here." aria-label="Search" matInput>
-    </mat-form-field>
-</form>
+<input id="unSanitizedQuery" name="unSanitizedQuery" class="form-control"
+      required minlength="3"
+      [(ngModel)]="queryModel.unSanitizedQuery" #unSanitizedQuery="ngModel" >
+
+<div *ngIf="unSanitizedQuery.invalid && (unSanitizedQuery.dirty || unSanitizedQuery.touched)"
+    class="alert alert-danger">
+
+  <div *ngIf="unSanitizedQuery.errors && unSanitizedQuery.errors.required">
+    Query is required.
+  </div>
+  <div *ngIf="unSanitizedQuery.errors && unSanitizedQuery.errors.minlength">
+    Query must be at least 2 characters long.
+  </div>
+
+</div>
+<button (click)="search('docker-compose',1)" matButton>Search</button>
+<button (click)="previousPage('docker-compose')" matButton>Previous</button>
+<button (click)="nextPage('docker-compose')" matButton>Next</button>
 <table>
     <thead>
        <tr>
@@ -19,7 +32,7 @@
     </thead>
     <tbody>
        <tr *ngFor="let item of esData">
-          <td>{{ 'smb://192.168.1.86/ownCloud/' + item._source.path.virtual }}</td>
+          <td>{{ 'smb://elasticsearch1/owncloud/' + item._source.path.virtual }}</td>
           <td>{{ item._source.content }}</td>
        </tr>
     </tbody>

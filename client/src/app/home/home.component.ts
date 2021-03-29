@@ -1,6 +1,8 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {SearchService} from '../shared/services/search.service';
 import {environment} from '../../environments/environment';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { QueryModel } from '../models/QueryModel';
 
 @Component({
     selector: 'app-home',
@@ -16,7 +18,11 @@ export class HomeComponent implements OnInit {
     searchResponse = '';
     PER_PAGE = environment.RESULTS_PER_PAGE;
     totalPages: any;
-
+    queryModel = new QueryModel();
+    queryForm = new FormGroup({
+        'unSanitizedQuery': new FormControl()
+    });
+    
     public esData: any[] = [];
 
     /**
@@ -30,8 +36,7 @@ export class HomeComponent implements OnInit {
     constructor(private es: SearchService,
                 private cd: ChangeDetectorRef) {
     }
-
-    ngOnInit() {
+    ngOnInit(): void {
         this.es.isAvailable().then(() => {
             this.status = 'OK';
             this.isConnected = true;
@@ -42,6 +47,18 @@ export class HomeComponent implements OnInit {
         }).then(() => {
             this.cd.detectChanges();
         });
+
+        this.queryForm = new FormGroup({
+            unSanitizedQuery: new FormControl(this.queryModel.unSanitizedQuery, [
+            Validators.required,
+            Validators.minLength(3)
+          ]),
+        });
+      
+    }
+    get sanitizedQuery() 
+    { 
+        return HomeComponent.sanitized(this.queryModel.unSanitizedQuery); 
     }
 
     /**
@@ -50,14 +67,14 @@ export class HomeComponent implements OnInit {
      * @param index - ES index to search.
      * @param page  - page.
      */
-    search(e, index, page) {
-        const sanitized = HomeComponent.sanitized(e.target.value);
-        if (sanitized.length) {
+    search(index, page) {
+
+        if (this.sanitizedQuery.length) {
             this.searchResponse = '';
             this.currentPage = page;
             // Search all indexes on ES
             if (index !== 'all') {
-                this.es.getPaginatedDocuments(sanitized, page, index).then((body) => {
+                this.es.getPaginatedDocuments(this.sanitizedQuery, page, index).then((body) => {
                     if (body.hits.total > 0) {
                         this.esData = body.hits.hits;
                         this.totalHits = body.hits.total;
@@ -70,7 +87,7 @@ export class HomeComponent implements OnInit {
                     this.searchResponse = 'Oops! Something went wrong... ERROR: ' + err.error;
                 });
             } else {
-                this.es.getPaginatedDocuments(sanitized, page).then((body) => {
+                this.es.getPaginatedDocuments(this.sanitizedQuery, page).then((body) => {
                     if (body.hits.total > 0) {
                         this.esData = body.hits.hits;
                         this.totalHits = body.hits.total;
@@ -89,11 +106,11 @@ export class HomeComponent implements OnInit {
 
     }
 
-    nextPage(query: string, index: string) {
-        const sanitized = HomeComponent.sanitized(query);
-        if (sanitized.length) {
+    nextPage(index: string) {
+        this.currentPage += 1;
+        if (this.sanitizedQuery.length) {
             if (this.currentPage < this.totalPages.length) {
-                this.search(query, index, this.currentPage + 1);
+                this.search(index, this.currentPage + 1);
             }
         } else {
             this.esData = [];
@@ -101,11 +118,11 @@ export class HomeComponent implements OnInit {
         }
     }
 
-    previousPage(query: string, index: string) {
-        const sanitized = HomeComponent.sanitized(query);
-        if (sanitized.length) {
+    previousPage(index: string) {
+        this.currentPage -= 1;
+        if (this.sanitizedQuery.length) {
             if (this.currentPage - 1 >= 1) {
-                this.search(query, index, this.currentPage - 1);
+                this.search(index, this.currentPage - 1);
             }
         } else {
             this.esData = [];
