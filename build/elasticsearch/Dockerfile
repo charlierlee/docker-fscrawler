@@ -31,4 +31,5 @@ FROM docker.elastic.co/elasticsearch/elasticsearch:6.4.0
 # Edit 2018-10-08 it seems that elasticsearch 6.4 now shows "green" even if 1 node,
 # so added to the healthcheck script a check that the "minimum" requirement is yellow
 COPY docker-healthcheck /usr/local/bin/
+COPY elasticsearch.yml /usr/share/elasticsearch/config/
 HEALTHCHECK CMD ["/bin/bash","docker-healthcheck","yellow"] 

@@ -1,0 +1,26 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <span>Elasticsearch Client</span>
+        <span class="toolbar-spacer"></span>
+        <a mat-button>About</a>
+    </mat-toolbar-row>
+</mat-toolbar>
+<form class="example-form" >
+    <mat-form-field class="example-full-width" style="width: 100%">
+        <input (input)="search($event.target.value, 'docker-compose', 1)" type="text" placeholder="Search here." aria-label="Search" matInput>
+    </mat-form-field>
+</form>
+<table>
+    <thead>
+       <tr>
+          <th>path</th>
+          <th>content</th>
+       </tr>
+    </thead>
+    <tbody>
+       <tr *ngFor="let item of esData">
+          <td>{{ 'smb://192.168.1.86/ownCloud/' + item._source.path.virtual }}</td>
+          <td>{{ item._source.content }}</td>
+       </tr>
+    </tbody>
+ </table>

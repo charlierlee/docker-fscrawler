@@ -20,7 +20,8 @@ services:
       # alpine linux as base image
       # context: ${PWD}/alpine
     volumes:
-    - ${PWD}/test/data/:/usr/share/fscrawler/data/:ro
+    #- ${PWD}/test/data/:/usr/share/fscrawler/data/:ro
+    - /home/alice/ownCloud/:/usr/share/fscrawler/data/:ro
     - ${PWD}/config/docker-compose:/usr/share/fscrawler/config-mount/docker-compose
 
     # Despite the python tester having a built-in healthcheck at tests/es_acceptance.py#wait_for_cluster_health
@@ -39,6 +40,8 @@ services:
       - docker-compose
 
   elasticsearch1:
+    ports:
+      - "9200:9200"
     build:
       # build a dockerfile on top of the official elasticsearch docker image hosted at docker.elastic.co
       # It includes healthcheck
@@ -55,7 +58,8 @@ services:
     build:
       context: ${PWD}/build/tester/
     volumes:
-    - ${PWD}/test/data/:/usr/share/fscrawler/data/:ro
+    #- ${PWD}/test/data/:/usr/share/fscrawler/data/:ro
+    - /home/alice/ownCloud/:/usr/share/fscrawler/data/:ro
 
   # worker service that uploads example pipeline
   es_init:
@@ -77,7 +81,8 @@ services:
       # context: ${PWD}/alpine
 
     volumes:
-    - ${PWD}/test/data/:/usr/share/fscrawler/data/:ro
+    #- ${PWD}/test/data/:/usr/share/fscrawler/data/:ro
+    - /home/alice/ownCloud/:/usr/share/fscrawler/data/:ro
     - ${PWD}/config/fscrawler_rest:/usr/share/fscrawler/config-mount/fscrawler_rest
     # check note above in fscrawler.depends_on
     depends_on:

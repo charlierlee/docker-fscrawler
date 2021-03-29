@@ -11,7 +11,7 @@ before_install:
 - /bin/sh .travis.updateDocker.sh
 - sudo sysctl -w vm.max_map_count=262144
 # No longer need to override the defaults to enable CORS
-# - cp test/elasticsearch/elasticsearch.yml elasticsearch-docker/build/elasticsearch/
+- cp test/elasticsearch/elasticsearch.yml build/elasticsearch/
 # download test files for OCR via tesseract
 - wget https://www.codeproject.com/KB/recipes/OCR-Chain-Code/image012.jpg -O test/data/image012.jpg
 - wget https://raw.githubusercontent.com/tesseract-ocr/docs/master/AT-1995.pdf -O test/data/AT-1995.pdf
