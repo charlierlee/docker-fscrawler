@@ -1,10 +1,10 @@
 {
-  "name": "elasticsearch-client",
+  "name": "client",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 1358",
-    "prod": "./node_modules/.bin/http-server dist/elasticsearch-client -c-1 -p 1358",
+    "prod": "./node_modules/.bin/http-server dist/client -c-1 -p 1358",
     "build": "ng build",
     "buildprod": "ng build --prod",
     "test": "ng test",
