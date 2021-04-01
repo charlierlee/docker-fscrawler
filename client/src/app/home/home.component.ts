@@ -3,6 +3,7 @@ import {SearchService} from '../shared/services/search.service';
 import {environment} from '../../environments/environment';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { QueryModel } from '../models/QueryModel';
+import { IndexChoice } from '../models/IndexChoice';
 
 @Component({
     selector: 'app-home',
@@ -22,7 +23,11 @@ export class HomeComponent implements OnInit {
     queryForm = new FormGroup({
         'unSanitizedQuery': new FormControl()
     });
-    
+    indices: IndexChoice[] = [
+        {value: 'docker-compose', viewValue: 'files'},
+        {value: 'images', viewValue: 'images'}
+    ];
+    selectedIndex = 'images';
     public esData: any[] = [];
 
     /**
@@ -67,8 +72,8 @@ export class HomeComponent implements OnInit {
      * @param index - ES index to search.
      * @param page  - page.
      */
-    search(index, page) {
-
+    search(page) {
+        let index = this.selectedIndex;
         if (this.sanitizedQuery.length) {
             this.searchResponse = '';
             this.currentPage = page;
@@ -106,11 +111,12 @@ export class HomeComponent implements OnInit {
 
     }
 
-    nextPage(index: string) {
+    nextPage() {
+        let index = this.selectedIndex;
         this.currentPage += 1;
         if (this.sanitizedQuery.length) {
             if (this.currentPage < this.totalPages.length) {
-                this.search(index, this.currentPage + 1);
+                this.search(this.currentPage + 1);
             }
         } else {
             this.esData = [];
@@ -118,11 +124,12 @@ export class HomeComponent implements OnInit {
         }
     }
 
-    previousPage(index: string) {
+    previousPage() {
+        let index = this.selectedIndex;
         this.currentPage -= 1;
         if (this.sanitizedQuery.length) {
             if (this.currentPage - 1 >= 1) {
-                this.search(index, this.currentPage - 1);
+                this.search(this.currentPage - 1);
             }
         } else {
             this.esData = [];

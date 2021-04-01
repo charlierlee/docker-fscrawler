@@ -6,9 +6,8 @@
     </mat-toolbar-row>
 </mat-toolbar>
 <input id="unSanitizedQuery" name="unSanitizedQuery" class="form-control"
-      required minlength="3"
+      required minlength="1"
       [(ngModel)]="queryModel.unSanitizedQuery" #unSanitizedQuery="ngModel" >
-
 <div *ngIf="unSanitizedQuery.invalid && (unSanitizedQuery.dirty || unSanitizedQuery.touched)"
     class="alert alert-danger">
 
@@ -16,24 +15,36 @@
     Query is required.
   </div>
   <div *ngIf="unSanitizedQuery.errors && unSanitizedQuery.errors.minlength">
-    Query must be at least 2 characters long.
+    Query must be at least 1 characters long.
   </div>
 
 </div>
-<button (click)="search('docker-compose',1)" matButton>Search</button>
-<button (click)="previousPage('docker-compose')" matButton>Previous</button>
-<button (click)="nextPage('docker-compose')" matButton>Next</button>
+<mat-form-field appearance="fill">
+   <mat-select [(ngModel)]="selectedIndex">
+     <mat-option *ngFor="let item of indices" [value]="item.value">
+       {{item.viewValue}}
+     </mat-option>
+   </mat-select>
+ </mat-form-field>
+<button (click)="search(1)" matButton>Search</button>
+<button (click)="previousPage()" matButton>Previous</button>
+<button (click)="nextPage()" matButton>Next</button>
+<div *ngIf="selectedIndex != 'images'">
 <table>
     <thead>
        <tr>
           <th>path</th>
-          <th>content</th>
        </tr>
     </thead>
     <tbody>
        <tr *ngFor="let item of esData">
-          <td>{{ 'smb://elasticsearch1/owncloud/' + item._source.path.virtual }}</td>
-          <td>{{ item._source.content }}</td>
+          <td><a target="_blank" href="{{ 'http://elasticsearch1:3000/' + item._source.path.virtual }}">{{item._source.path.virtual }}</a></td>
        </tr>
     </tbody>
  </table>
+ </div>
+ <div *ngIf="selectedIndex == 'images'">
+  <ul class="images">
+    <li *ngFor="let item of esData"><img width="200" src="{{ 'http://elasticsearch1:3000/' + item._source.path.virtual }}"/></li>
+  </ul>
+</div>

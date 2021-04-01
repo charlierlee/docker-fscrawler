@@ -38,7 +38,19 @@ services:
       - --config_dir
       - /usr/share/fscrawler/config
       - docker-compose
-
+  deepdetect_gpu:
+    image: jolibrain/deepdetect_gpu
+    ports:
+      - 3542:8080
+    volumes:
+      - /home/alice/ownCloud/models/:/opt/models/
+      - /home/alice/ownCloud/:/usr/share/fscrawler/data/:ro
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - capabilities: [gpu]
+    restart: on-failure
   elasticsearch1:
     ports:
       - "9200:9200"
