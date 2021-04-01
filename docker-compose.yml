@@ -10,6 +10,12 @@
 version: '2.1'
 
 services:
+  elasticsearch_client:
+        build:
+          context: ${PWD}/client
+          dockerfile: ./Dockerfile
+        ports:
+            - "1358:1358"
   fileserver:
     build:
       context: ${PWD}/file_server
