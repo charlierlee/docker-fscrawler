@@ -10,7 +10,11 @@
 version: '2.1'
 
 services:
-
+  fileserver:
+    build:
+      context: ${PWD}/file_server
+    ports:
+      - '3000:3000'
   # fscrawler service for indexing a folder
   # Also check `fscrawlerrest` service for REST access
   fscrawler:

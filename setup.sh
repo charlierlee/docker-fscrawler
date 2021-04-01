@@ -8,7 +8,13 @@ sudo apt-get update
 sudo apt-get -y install cuda
 #if fail: sudo apt clean; sudo apt update; sudo apt purge cuda; sudo apt purge nvidia-*; sudo apt autoremove; sudo apt install cuda
 
+#upgrade docker-compose
+VERSION=$(curl --silent https://api.github.com/repos/docker/compose/releases/latest | jq .name -r)
+DESTINATION=/usr/local/bin/docker-compose
+sudo curl -L https://github.com/docker/compose/releases/download/${VERSION}/docker-compose-$(uname -s)-$(uname -m) -o $DESTINATION
+sudo chmod 755 $DESTINATION
 
+#install nvidia-container-toolkit
 distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
 curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
 curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
@@ -16,6 +22,7 @@ curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.li
 sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit nvidia-container-runtime nvidia-docker2
 sudo systemctl restart docker
 #if docker-compose up fails, reboot
+
 docker-compose up
 
 
