@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
     currentPage: number = 0;
     searchResponse = '';
     PER_PAGE = environment.RESULTS_PER_PAGE;
-    totalPages: any;
+    totalPages: number = 0;
     queryModel = new QueryModel();
     queryForm = new FormGroup({
         'unSanitizedQuery': new FormControl()
@@ -84,7 +84,7 @@ export class HomeComponent implements OnInit {
                         this.esData = body.hits.hits;
                         this.totalHits = body.hits.total;
                         this.searchTime = body.hits.time;
-                        this.totalPages = Array(Math.ceil(body.hits.total / this.PER_PAGE)).fill(4);
+                        this.totalPages = Math.ceil(body.hits.total / this.PER_PAGE);
                     } else {
                         this.searchResponse = 'No matches found';
                     }
@@ -97,7 +97,7 @@ export class HomeComponent implements OnInit {
                         this.esData = body.hits.hits;
                         this.totalHits = body.hits.total;
                         this.searchTime = body.took;
-                        this.totalPages = Array(Math.ceil(body.hits.total / this.PER_PAGE)).fill(4);
+                        this.totalPages = Math.ceil(body.hits.total / this.PER_PAGE);
                     } else {
                         this.searchResponse = 'No matches found';
                     }
@@ -112,28 +112,26 @@ export class HomeComponent implements OnInit {
     }
 
     nextPage() {
-        let index = this.selectedIndex;
-        this.currentPage += 1;
-        if (this.sanitizedQuery.length) {
-            if (this.currentPage < this.totalPages.length) {
-                this.search(this.currentPage + 1);
+        if (this.currentPage < this.totalPages) {
+            this.currentPage += 1;
+            if (this.sanitizedQuery.length) {
+                this.search(this.currentPage);
+            } else {
+                this.esData = [];
+                this.searchResponse = 'Nothing found';
             }
-        } else {
-            this.esData = [];
-            this.searchResponse = 'Nothing found';
         }
     }
 
     previousPage() {
-        let index = this.selectedIndex;
-        this.currentPage -= 1;
-        if (this.sanitizedQuery.length) {
-            if (this.currentPage - 1 >= 1) {
-                this.search(this.currentPage - 1);
+        if (this.currentPage - 1 >= 1) {
+            this.currentPage -= 1;
+            if (this.sanitizedQuery.length) {
+                this.search(this.currentPage);
+            } else {
+                this.esData = [];
+                this.searchResponse = 'Nothing found';
             }
-        } else {
-            this.esData = [];
-            this.searchResponse = 'Nothing found';
         }
     }
 }

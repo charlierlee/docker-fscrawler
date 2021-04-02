@@ -5,6 +5,8 @@ import cv2
 import pdb
 import sys
 import time
+#why deepdetectgpu:8080 and not elasticsearch1:8080?
+#because https://stackoverflow.com/questions/40440415/docker-compose-connection-refused-between-containers-but-service-accessible-fr
 url = "http://deepdetectgpu:8080/services/ilsvrc_googlenet"
 params = {
  "description": "image classification service",
