@@ -4,6 +4,7 @@ import base64
 import cv2
 import pdb
 import sys
+import time
 url = "http://elasticsearch1:3542/services/ilsvrc_googlenet"
 params = {
  "description": "image classification service",
@@ -71,3 +72,6 @@ for root, dirs, files in os.walk("/home/alice/ownCloud/"):
     except KeyboardInterrupt:
         print("loop exiting via Ctrl+c")
         sys.exit(1) # break or raise
+        
+#crawl once a day
+time.sleep(60 * 60 * 24)

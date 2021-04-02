@@ -14,16 +14,25 @@ DESTINATION=/usr/local/bin/docker-compose
 sudo curl -L https://github.com/docker/compose/releases/download/${VERSION}/docker-compose-$(uname -s)-$(uname -m) -o $DESTINATION
 sudo chmod 755 $DESTINATION
 
-#install nvidia-container-toolkit
+#install nvidia-container-toolkit give docker-compose access to the gpu
 distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
 curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
 curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
 
 sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit nvidia-container-runtime nvidia-docker2
 sudo systemctl restart docker
-#if docker-compose up fails, reboot
+#^ if docker-compose up fails, reboot
 
-docker-compose up
+#for docker-compose.yml restart: always feature,
+# make docker run as a service
+sudo systemctl enable docker
+
+#start
+cd client
+npm install
+npm run buildprod
+cd ../
+docker-compose up -d
 
 
 #https://www.deepdetect.com/tutorials/es-image-classifier/
