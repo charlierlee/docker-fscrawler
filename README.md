@@ -1,9 +1,10 @@
-![alt text](https://github.com/charlierlee/docker-fscrawler/blob/master/screenshot.png?raw=true)
 
 # After Fork
 
 - Added deepdetect to index images
 - Added Angular front end to view/download search results
+
+![alt text](https://github.com/charlierlee/docker-fscrawler/blob/master/screenshot.png?raw=true)
 
 # Proir to Fork
 
