@@ -5,7 +5,7 @@ import cv2
 import pdb
 import sys
 import time
-url = "http://elasticsearch1:3542/services/ilsvrc_googlenet"
+url = "http://elasticsearch1:8080/services/ilsvrc_googlenet"
 params = {
  "description": "image classification service",
  "model": {
@@ -44,7 +44,7 @@ for root, dirs, files in os.walk("/home/alice/ownCloud/"):
                     except:
                         print("could not open ", uri)
                         continue
-                    url = "http://elasticsearch1:3542/predict"
+                    url = "http://elasticsearch1:8080/predict"
                     params = {"service":"ilsvrc_googlenet",
                         "parameters":
                             {

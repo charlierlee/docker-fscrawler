@@ -66,7 +66,7 @@ services:
   deepdetectgpu:
     image: jolibrain/deepdetect_gpu
     ports:
-      - 3542:8080
+      - 8080:8080
     volumes:
       - /home/alice/ownCloud/models/:/opt/models/
       - /home/alice/ownCloud/:/usr/share/fscrawler/data/:ro

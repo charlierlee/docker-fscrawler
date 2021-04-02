@@ -37,7 +37,7 @@ docker-compose up -d
 
 #https://www.deepdetect.com/tutorials/es-image-classifier/
 
-curl -X PUT 'http://elasticsearch1:3542/services/ilsvrc_googlenet' -d '{
+curl -X PUT 'http://elasticsearch1:8080/services/ilsvrc_googlenet' -d '{
  "description": "image classification service",
  "model": {
   "repository": "/opt/models/ilsvrc_googlenet",
@@ -55,7 +55,7 @@ curl -X PUT 'http://elasticsearch1:3542/services/ilsvrc_googlenet' -d '{
 
 #test
 #cannot use localhost
-curl -X POST "http://elasticsearch1:3542/predict" -d '{
+curl -X POST "http://elasticsearch1:8080/predict" -d '{
        "service":"ilsvrc_googlenet",
        "parameters":{
          "mllib":{
