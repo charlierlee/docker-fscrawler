@@ -1,5 +1,3 @@
-# docker-fscrawler [![Build Status](https://travis-ci.org/shadiakiki1986/docker-fscrawler.svg?branch=master)](https://travis-ci.org/shadiakiki1986/docker-fscrawler)
-
 ![alt text](https://github.com/charlierlee/docker-fscrawler/blob/master/screenshot.png?raw=true)
 
 # After Fork
@@ -8,6 +6,9 @@
 - Added Angular front end to view/download search results
 
 # Proir to Fork
+
+# docker-fscrawler [![Build Status](https://travis-ci.org/shadiakiki1986/docker-fscrawler.svg?branch=master)](https://travis-ci.org/shadiakiki1986/docker-fscrawler)
+
 Dockerfile for [fscrawler](https://github.com/dadoonet/fscrawler)
 
 Published on docker hub [here](https://hub.docker.com/r/shadiakiki1986/fscrawler/).
