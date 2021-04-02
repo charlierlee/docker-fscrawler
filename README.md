@@ -2,6 +2,12 @@
 
 ![alt text](https://github.com/charlierlee/docker-fscrawler/blob/master/screenshot.png?raw=true)
 
+# After Fork
+
+- Added deepdetect to index images
+- Added Angular front end to view/download search results
+
+# Proir to Fork
 Dockerfile for [fscrawler](https://github.com/dadoonet/fscrawler)
 
 Published on docker hub [here](https://hub.docker.com/r/shadiakiki1986/fscrawler/).
