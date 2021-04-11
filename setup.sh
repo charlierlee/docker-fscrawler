@@ -32,6 +32,7 @@ cd client
 npm install
 npm run buildprod
 cd ../
+docker-compose build elasticsearch_client
 mkdir /home/alice/esdata
 docker-compose up -d
 
