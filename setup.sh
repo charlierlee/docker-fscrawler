@@ -27,13 +27,14 @@ sudo systemctl restart docker
 # make docker run as a service
 sudo systemctl enable docker
 
+mkdir /home/alice/esdata
+
 #start
 cd client
 npm install
 npm run buildprod
 cd ../
 docker-compose build elasticsearch_client
-mkdir /home/alice/esdata
 docker-compose up -d
 
 
