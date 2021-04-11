@@ -18,15 +18,15 @@ services:
     restart: always
     depends_on:
       - deepdetectgpu
-      elasticsearch_client:
-        build:
-          context: ${PWD}/client
-          dockerfile: ./Dockerfile
-        ports:
-            - "1358:1358"
-        restart: always
-        depends_on:
-          - fileserver
+  elasticsearch_client:
+    build:
+      context: ${PWD}/client
+      dockerfile: ./Dockerfile
+    ports:
+        - "1358:1358"
+    restart: always
+    depends_on:
+      - fileserver
   fileserver:
     build:
       context: ${PWD}/file_server
