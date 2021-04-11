@@ -32,6 +32,7 @@ cd client
 npm install
 npm run buildprod
 cd ../
+mkdir /home/alice/esdata
 docker-compose up -d
 
 

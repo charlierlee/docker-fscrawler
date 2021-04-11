@@ -10,7 +10,7 @@ export class SearchService {
 
     queryalldocs = {
         'query': {
-            'match_all': {}
+            'match_phrase': {}
         },
         'sort': [
             {'_score': {'order': 'desc'}}

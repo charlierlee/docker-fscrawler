@@ -18,15 +18,15 @@ services:
     restart: always
     depends_on:
       - deepdetectgpu
-  elasticsearch_client:
-    build:
-      context: ${PWD}/client
-      dockerfile: ./Dockerfile
-    ports:
-        - "1358:1358"
-    restart: always
-    depends_on:
-      - fileserver
+      elasticsearch_client:
+        build:
+          context: ${PWD}/client
+          dockerfile: ./Dockerfile
+        ports:
+            - "1358:1358"
+        restart: always
+        depends_on:
+          - fileserver
   fileserver:
     build:
       context: ${PWD}/file_server
@@ -88,7 +88,7 @@ services:
       # Check build/elasticsearch/Dockerfile for more details
       context: ${PWD}/build/elasticsearch
     volumes:
-    - /home/alice/ownCloud/esdata/:/usr/share/elasticsearch/data/
+    - /home/alice/esdata/:/usr/share/elasticsearch/data/
     # https://github.com/elastic/elasticsearch/blob/master/distribution/docker/docker-compose.yml#L6
     # https://stackoverflow.com/a/61547317/4126114
     environment:
