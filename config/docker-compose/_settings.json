@@ -3,7 +3,8 @@
   "fs" : {
     "url" : "/usr/share/fscrawler/data",
     "filename_as_id" : true,
-    "indexed_chars": -1
+    "indexed_chars": -,
+    "ignore_above": "100mb"
   },
   "elasticsearch" : {
     "nodes" : [
