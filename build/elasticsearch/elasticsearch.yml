@@ -18,5 +18,3 @@ http.cors.allow-origin: http://elasticsearch1:1358,http://localhost:1358,http://
 http.cors.enabled: true
 http.cors.allow-headers : X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization
 http.cors.allow-credentials: true
-
-index.mapping.attachment.indexed_chars: -1
