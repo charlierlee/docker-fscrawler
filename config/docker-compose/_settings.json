@@ -12,8 +12,6 @@
     ],
     "index" : "docker-compose",
     "pipeline": "example_pipeline",
-    "type": "doc",
-    "indexed_chars": -1,
-    "ignore_above": "100mb"
+    "type": "doc"
   }
 }
