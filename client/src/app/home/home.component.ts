@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit {
      * @param query - user search query.
      */
     static sanitized(query): string {
-        return query.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+        return query.replace(/[&\/\\#,$%.':*?<>{}]/g, '');
     }
 
     constructor(private es: SearchService,

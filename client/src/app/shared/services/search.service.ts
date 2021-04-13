@@ -10,7 +10,7 @@ export class SearchService {
 
     queryalldocs = {
         'query': {
-            'match_phrase': {}
+            'query_string': {}
         },
         'sort': [
             {'_score': {'order': 'desc'}}
@@ -77,14 +77,16 @@ export class SearchService {
                     index: _index,
                     type: _type,
                     from: (_page - 1) * this.perPage,
-                    size: this.perPage
+                    size: this.perPage,
+                    default_operator:"and"
                 });
             }
             return this.client.search({
                 q: _query,
                 index: _index,
                 from: (_page - 1) * this.perPage,
-                size: this.perPage
+                size: this.perPage,
+                default_operator:"and"
             });
         } else {
             if (_type !== undefined) {
@@ -92,13 +94,15 @@ export class SearchService {
                     q: _query,
                     type: _type,
                     from: (_page - 1) * this.perPage,
-                    size: this.perPage
+                    size: this.perPage,
+                    default_operator:"and"
                 });
             }
             return this.client.search({
                 q: _query,
                 from: (_page - 1) * this.perPage,
-                size: this.perPage
+                size: this.perPage,
+                default_operator:"and"
             });
         }
     }
