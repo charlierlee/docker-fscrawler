@@ -6,7 +6,9 @@
     ],
     "index" : "fscrawler_rest",
     "pipeline": "example_pipeline",
-    "type": "doc"
+    "type": "doc",
+    "indexed_chars": -1,
+    "ignore_above": "100mb"
   },
   "rest" : {
     "scheme" : "HTTP",

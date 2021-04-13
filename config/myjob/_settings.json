@@ -1,6 +1,8 @@
 {
   "name" : "myjob",
   "fs" : {
-    "url" : "/usr/share/fscrawler/data"
+    "url" : "/usr/share/fscrawler/data",
+    "indexed_chars": -1,
+    "ignore_above": "100mb"
   }
 }

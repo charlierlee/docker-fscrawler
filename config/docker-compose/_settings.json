@@ -3,7 +3,7 @@
   "fs" : {
     "url" : "/usr/share/fscrawler/data",
     "filename_as_id" : true,
-    "indexed_chars": -,
+    "indexed_chars": -1,
     "ignore_above": "100mb"
   },
   "elasticsearch" : {
@@ -12,6 +12,8 @@
     ],
     "index" : "docker-compose",
     "pipeline": "example_pipeline",
-    "type": "doc"
+    "type": "doc",
+    "indexed_chars": -1,
+    "ignore_above": "100mb"
   }
 }
