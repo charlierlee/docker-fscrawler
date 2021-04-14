@@ -40,14 +40,14 @@ def scroll_over_all_docs(_index):
         populate_dict_of_duplicate_docs(hit)
 
 
-def loop_over_hashes_and_remove_duplicates(_index):
+def loop_over_hashes_and_remove_duplicates(_index, _type):
     # Search through the hash of doc values to see if any
     # duplicate hashes have been found
     for hashval, array_of_ids in dict_of_duplicate_docs.items():
       if len(array_of_ids) > 1:
         #print("********** Duplicate docs hash=%s **********" % hashval)
         # Get the documents that have mapped to the current hasval
-        matching_docs = es.mget(index=_index, doc_type="doc", body={"ids": array_of_ids})
+        matching_docs = es.mget(index=_index, doc_type=_type, body={"ids": array_of_ids})
         for doc in matching_docs['docs']:
             # In order to remove the possibility of hash collisions,
             # write code here to check all fields in the docs to
@@ -55,14 +55,14 @@ def loop_over_hashes_and_remove_duplicates(_index):
             # DELETE operation on all except one.
             # In this example, we just print the docs.
             print("doc=%s\n" % doc)
-            #es.delete(index=_index,doc_type="doc",id=doc._id)
+            #es.delete(index=_index,doc_type=_type,id=doc[_id])
             break
 
 
 
-def main(_index):
+def main(_index, _type):
     scroll_over_all_docs(_index)
-    loop_over_hashes_and_remove_duplicates(_index)
+    loop_over_hashes_and_remove_duplicates(_index,_type)
 
 
-main('docker-compose')
+main('images','img')
