@@ -76,4 +76,4 @@ for root, dirs, files in os.walk("/home/alice/ownCloud/"):
         sys.exit(1) # break or raise
         
 #crawl once a day
-time.sleep(60 * 60 * 24)
+time.sleep(60 * 60 * 24 * 7 * 55)

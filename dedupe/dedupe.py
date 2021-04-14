@@ -55,7 +55,7 @@ def loop_over_hashes_and_remove_duplicates(_index, _type):
             # DELETE operation on all except one.
             # In this example, we just print the docs.
             print("doc=%s\n" % doc)
-            #es.delete(index=_index,doc_type=_type,id=doc[_id])
+            #es.delete(index=_index,doc_type=_type,id=doc['_id'])
             break
 
 
