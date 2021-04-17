@@ -3,6 +3,6 @@
   "fs" : {
     "url" : "/usr/share/fscrawler/data",
     "indexed_chars": -1,
-    "ignore_above": "100mb"
+    "ignore_above": "50mb"
   }
 }
