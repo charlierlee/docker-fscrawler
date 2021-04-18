@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
         'unSanitizedQuery': new FormControl()
     });
     indices: IndexChoice[] = [
-        {value: 'docker-compose', viewValue: 'files'},
+        {value: 'docker-compose', viewValue: 'owncloud'},
         {value: 'images', viewValue: 'images'}
     ];
     selectedIndex = 'images';
