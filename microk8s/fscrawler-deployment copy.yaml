@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose --file docker-compose3.yml --volumes hostPath convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: fscrawler
+  name: fscrawler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: fscrawler
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose --file docker-compose3.yml --volumes hostPath convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/fscrawler-net: "true"
+        io.kompose.service: fscrawler
+    spec:
+      containers:
+        - args:
+            - bin/fscrawler
+            - --rest
+            - idx
+          image: dadoonet/fscrawler:2.7-SNAPSHOT-es6-eng
+          name: fscrawler
+          resources: {}
+          volumeMounts:
+            - mountPath: /usr/share/fscrawler/logs
+              name: fscrawler-hostpath0
+            - mountPath: /usr/share/fscrawler/data/
+              name: fscrawler-hostpath1
+              readOnly: true
+            - mountPath: /usr/share/fscrawler/config-mount/docker-compose
+              name: fscrawler-hostpath2
+      restartPolicy: Always
+      volumes:
+        - hostPath:
+            path: /media/tb2/docker-fscrawler/logs
+          name: fscrawler-hostpath0
+        - hostPath:
+            path: /home/alice/ownCloud/
+          name: fscrawler-hostpath1
+        - hostPath:
+            path: /media/tb2/docker-fscrawler/config/docker-compose
+          name: fscrawler-hostpath2
+status: {}

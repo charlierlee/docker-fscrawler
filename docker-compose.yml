@@ -7,18 +7,18 @@
 # - https://github.com/elastic/elasticsearch/blob/master/distribution/docker/docker-compose.yml
 # - https://github.com/dadoonet/fscrawler/blob/master/contrib/docker-compose-example/docker-compose.yml
 
-version: '2.1'
+version: '3.0'
 
 services:
-  imageclassify:
-    build:
-      context: ${PWD}/image_classify
-    volumes:
-    - /home/alice/ownCloud/:/home/alice/ownCloud/
-    restart: always
-    depends_on:
-      - deepdetectgpu
-  elasticsearch_client:
+#  imageclassify:
+#    build:
+#      context: ${PWD}/image_classify
+#    volumes:
+#    - /home/alice/ownCloud/:/home/alice/ownCloud/
+#    restart: always
+#    depends_on:
+#      - deepdetectgpu
+  elasticsearch-client:
     build:
       context: ${PWD}/client
       dockerfile: ./Dockerfile
@@ -55,30 +55,29 @@ services:
       # Should be es_init here, but not sure why fscrawler fails to detect it has executed
       # This "depends_on.condition" syntax is deprecated anyway, so not thinking it through
       # es_init:
-      elasticsearch1:
-        condition: service_healthy
+      - elasticsearch1
     command:
       - --trace
       - --config_dir
       - /usr/share/fscrawler/config
       - docker-compose
     restart: always
-  deepdetectgpu:
-    image: jolibrain/deepdetect_gpu
-    ports:
-      - 8080:8080
-    volumes:
-      - /home/alice/ownCloud/models/:/opt/models/
-      - /home/alice/ownCloud/:/usr/share/fscrawler/data/:ro
-    deploy:
-      resources:
-        reservations:
-          devices:
-          - capabilities: [gpu]
-    restart: always
-    depends_on:
-      elasticsearch1:
-        condition: service_healthy
+#  deepdetectgpu:
+#    image: jolibrain/deepdetect_gpu
+#    ports:
+#      - 8080:8080
+#    volumes:
+#      - /home/alice/ownCloud/models/:/opt/models/
+#      - /home/alice/ownCloud/:/usr/share/fscrawler/data/:ro
+#    deploy:
+#      resources:
+#        reservations:
+#          devices:
+#          - capabilities: [gpu]
+#    restart: always
+#    depends_on:
+#      elasticsearch1:
+#        condition: service_healthy
   elasticsearch1:
     ports:
       - "9200:9200"
@@ -103,12 +102,11 @@ services:
     - /home/alice/ownCloud/:/usr/share/fscrawler/data/:ro
 
   # worker service that uploads example pipeline
-  es_init:
+  es-init:
     build:
       context: ${PWD}/build/es_init/
     depends_on:
-      elasticsearch1:
-        condition: service_healthy
+      - elasticsearch1
     environment:
       - ES_URL=http://elasticsearch1:9200
 
