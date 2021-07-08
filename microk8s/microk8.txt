@@ -9,6 +9,7 @@ kompose convert
 kompose --file docker-compose3.yml --volumes hostPath convert 
 
 microk8s.kubectl apply -f elasticsearch-deployment.yaml,fscrawler-deployment.yaml,elasticsearch-service.yaml,fscrawler-net-networkpolicy.yaml
+microk8s.kubectl apply -f elasticsearch1-claim0-persistentvolumeclaim.yaml,elasticsearch-client-service.yaml,fileserver-service.yaml,tester-claim0-persistentvolumeclaim.yaml,elasticsearch1-deployment.yaml,es-init-deployment.yaml,fscrawler-claim0-persistentvolumeclaim.yaml,tester-deployment.yaml,elasticsearch1-service.yaml,fileserver-claim0-persistentvolumeclaim.yaml,fscrawler-claim1-persistentvolumeclaim.yaml,elasticsearch-client-deployment.yaml,fileserver-deployment.yaml,fscrawler-deployment.yaml
 #microk8s.kubectl apply -f fscrawler-deployment.yaml
 #microk8s.kubectl apply -f elasticsearch1-service.yaml
 

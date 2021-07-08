@@ -19,6 +19,7 @@ services:
 #    depends_on:
 #      - deepdetectgpu
   elasticsearch-client:
+    image: localhost:32000/elasticsearch-client
     build:
       context: ${PWD}/client
       dockerfile: ./Dockerfile
@@ -28,6 +29,7 @@ services:
     depends_on:
       - fileserver
   fileserver:
+    image: localhost:32000/fileserver
     build:
       context: ${PWD}/file_server
     ports:
@@ -38,6 +40,7 @@ services:
   # fscrawler service for indexing a folder
   # Also check `fscrawlerrest` service for REST access
   fscrawler:
+    image: localhost:32000/fscrawler
     build:
       # ubuntu as base image
       context: ${PWD}
@@ -79,6 +82,7 @@ services:
 #      elasticsearch1:
 #        condition: service_healthy
   elasticsearch1:
+    image: localhost:32000/elasticsearch1
     ports:
       - "9200:9200"
     build:
@@ -95,6 +99,7 @@ services:
     restart: always
   # service that serves .travis.yml to make curl calls to elasticsearch1 and fscrawler
   tester:
+    image: localhost:32000/tester
     build:
       context: ${PWD}/build/tester/
     volumes:
@@ -103,6 +108,7 @@ services:
 
   # worker service that uploads example pipeline
   es-init:
+    image: localhost:32000/es-init
     build:
       context: ${PWD}/build/es_init/
     depends_on:
