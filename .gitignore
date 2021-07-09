@@ -11,3 +11,4 @@ config/docker-compose/_default
 nodes
 logs
 image_ls
+admin.config
