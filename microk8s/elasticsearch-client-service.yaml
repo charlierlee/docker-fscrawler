@@ -9,6 +9,7 @@ metadata:
     io.kompose.service: elasticsearch-client
   name: elasticsearch-client
 spec:
+  type: NodePort
   ports:
     - name: "1358"
       port: 1358

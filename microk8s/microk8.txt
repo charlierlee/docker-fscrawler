@@ -16,6 +16,8 @@ kompose --file docker-compose3.yml --volumes hostPath convert
 microk8s.kubectl apply -f elasticsearch1-deployment.yaml,elasticsearch-client-deployment.yaml,es-init-deployment.yaml,fileserver-service.yaml,tester-deployment.yaml,elasticsearch1-service.yaml,elasticsearch-client-service.yaml,fileserver-deployment.yaml,fscrawler-deployment.yaml
 #microk8s.kubectl apply -f fscrawler-deployment.yaml
 #microk8s.kubectl apply -f elasticsearch1-deployment.yaml
+microk8s.kubectl apply -f elasticsearch1-service.yaml
+microk8s.kubectl apply -f elasticsearch-client-deployment.yaml
 
 microk8s kubectl get all --all-namespaces
 
