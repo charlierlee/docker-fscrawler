@@ -6,13 +6,13 @@ metadata:
     kompose.version: 1.22.0 (955b78124)
   creationTimestamp: null
   labels:
-    io.kompose.service: fscrawler
-  name: fscrawler
+    io.kompose.service: tester
+  name: tester
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: fscrawler
+      io.kompose.service: tester
   strategy:
     type: Recreate
   template:
@@ -22,29 +22,19 @@ spec:
         kompose.version: 1.22.0 (955b78124)
       creationTimestamp: null
       labels:
-        io.kompose.service: fscrawler
+        io.kompose.service: tester
     spec:
       containers:
-        - args:
-            - --trace
-            - --config_dir
-            - /usr/share/fscrawler/config
-            - docker-compose
-          image: localhost:32000/fscrawler
-          name: fscrawler
+        - image: localhost:32000/tester
+          name: tester
           resources: {}
           volumeMounts:
             - mountPath: /usr/share/fscrawler/data/
-              name: fscrawler-hostpath0
+              name: tester-hostpath0
               readOnly: true
-            - mountPath: /usr/share/fscrawler/config-mount/docker-compose
-              name: fscrawler-hostpath1
       restartPolicy: Always
       volumes:
         - hostPath:
             path: /home/alice/ownCloud/
-          name: fscrawler-hostpath0
-        - hostPath:
-            path: /media/tb2/docker-fscrawler/config/docker-compose
-          name: fscrawler-hostpath1
+          name: tester-hostpath0
 status: {}

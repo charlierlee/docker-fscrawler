@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose --volumes hostPath convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: fileserver
+  name: fileserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: fileserver
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose --volumes hostPath convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: fileserver
+    spec:
+      containers:
+        - image: localhost:32000/fileserver
+          name: fileserver
+          ports:
+            - containerPort: 3000
+          resources: {}
+          volumeMounts:
+            - mountPath: /home/alice/ownCloud/
+              name: fileserver-hostpath0
+      restartPolicy: Always
+      volumes:
+        - hostPath:
+            path: /home/alice/ownCloud/
+          name: fileserver-hostpath0
+status: {}

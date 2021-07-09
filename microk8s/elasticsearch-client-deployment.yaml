@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose --volumes hostPath convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: elasticsearch-client
+  name: elasticsearch-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: elasticsearch-client
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose --volumes hostPath convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: elasticsearch-client
+    spec:
+      containers:
+        - image: localhost:32000/elasticsearch-client
+          name: elasticsearch-client
+          ports:
+            - containerPort: 1358
+          resources: {}
+      restartPolicy: Always
+status: {}

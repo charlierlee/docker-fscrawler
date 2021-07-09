@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose --volumes hostPath convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: elasticsearch-client
+  name: elasticsearch-client
+spec:
+  ports:
+    - name: "1358"
+      port: 1358
+      targetPort: 1358
+  selector:
+    io.kompose.service: elasticsearch-client
+status:
+  loadBalancer: {}
