@@ -13,6 +13,7 @@ spec:
     - name: "1358"
       port: 1358
       targetPort: 1358
+      nodePort: 31358
   selector:
     io.kompose.service: elasticsearch-client
 status:

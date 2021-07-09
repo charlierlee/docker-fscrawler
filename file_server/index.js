@@ -4,7 +4,7 @@ var app = express();
 var cors = require('cors')
 
 app.use(cors({
-    origin: 'http://elasticsearch1:1358'
+    origin: 'http://elasticsearch1:31358'
 }));
 app.use(express.static('/home/alice/ownCloud'));
 

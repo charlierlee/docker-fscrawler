@@ -1,4 +1,6 @@
 #among other things:
+https://pacroy.medium.com/single-node-kubernetes-on-home-lab-using-microk8s-metallb-and-traefik-7bb1ea38fcc2
+
 microk8s enable host-access
 
 docker push localhost:32000/es-init
@@ -22,6 +24,8 @@ microk8s kubectl logs elasticsearch1-b46cb75d8-qd7fv
 microk8s kubectl expose deployment elasticsearch-client --type=NodePort --port=1358 --name=elasticsearch-client-service
 microk8s kubectl expose deployment elasticsearch1 --type=NodePort --port=9200 --name=elasticsearch1-service
 microk8s kubectl expose deployment fileserver --type=NodePort --port=3000 --nodePort=9200 --name=fileserver-service
+
+microk8s kubectl port-forward service/elasticsearch-client 1358:1358 -n default
 
 microk8s.kubectl describe pod
 microk8s inspect
