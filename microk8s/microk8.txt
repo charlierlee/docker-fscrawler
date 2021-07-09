@@ -13,12 +13,12 @@ kompose --file docker-compose3.yml --volumes hostPath convert
 
 microk8s.kubectl apply -f elasticsearch1-deployment.yaml,elasticsearch-client-deployment.yaml,es-init-deployment.yaml,fileserver-service.yaml,tester-deployment.yaml,elasticsearch1-service.yaml,elasticsearch-client-service.yaml,fileserver-deployment.yaml,fscrawler-deployment.yaml
 #microk8s.kubectl apply -f fscrawler-deployment.yaml
-#microk8s.kubectl apply -f elasticsearch1-service.yaml
+#microk8s.kubectl apply -f elasticsearch1-deployment.yaml
 
 microk8s kubectl get all --all-namespaces
 
 microk8s kubectl rollout restart deployment
-microk8s kubectl logs fscrawler-65554b8db5-5f6qr
+microk8s kubectl logs elasticsearch1-b46cb75d8-qd7fv
 microk8s kubectl expose deployment elasticsearch-client --type=NodePort --port=1358 --name=elasticsearch-client-service
 microk8s kubectl expose deployment elasticsearch1 --type=NodePort --port=9200 --name=elasticsearch1-service
 microk8s kubectl expose deployment fileserver --type=NodePort --port=3000 --nodePort=9200 --name=fileserver-service
@@ -48,4 +48,39 @@ microk8s kubectl delete --all service --namespace=default
 microk8s kubectl get netpol -n default
 microk8s kubectl delete netpol fscrawler-net -n default
 
+curl -XDELETE localhost:9200/docker-compose
+curl -XDELETE localhost:9200/docker-compose_folder
 
+curl -XPUT -H 'Content-Type: application/json' 'elasticsearch1:9200/docker-compose/_settings' -d '
+{
+    "index" : {
+        "number_of_replicas" : 1
+    }
+}'
+
+curl -XPUT -H 'Content-Type: application/json' 'elasticsearch1:9200/docker-compose_folder/_settings' -d '
+{
+    "index" : {
+        "number_of_replicas" : 5
+    }
+}'
+
+curl -XPOST 'localhost:9200/_cluster/reroute' -d '{
+    "commands": [{
+        "allocate": {
+            "index": "docker-compose",
+            "shard": 0,
+            "node": "search03",
+            "allow_primary": 1
+        }
+    }]
+}' 
+
+curl -XPOST -d '{ "commands" : [ {
+  "allocate" : {
+       "index" : "docker-compose", 
+       "shard" : 0, 
+       "node" : "Fo2G1cR",
+       "allow_primary":true 
+     } 
+  } ] }' http://localhost:9200/_cluster/reroute?pretty
