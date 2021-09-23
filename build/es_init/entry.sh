@@ -7,8 +7,9 @@ if [ -z "$ES_URL" ]; then
   exit 1
 fi
 
-# set up ingest pipeline for preprocessing a document contents
-curl --silent -XPUT -H "Content-Type: application/json" \
-  -d @example_pipeline.json \
-  $ES_URL/_ingest/pipeline/example_pipeline?pretty
+until curl --silent -XPUT -H "Content-Type: application/json" -d @example_pipeline.json $ES_URL/_ingest/pipeline/example_pipeline?pretty; do
+    echo 'error'
+    sleep 5
+done
 
+echo 'success'

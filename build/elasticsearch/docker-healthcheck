@@ -3,6 +3,8 @@
 # Usage: docker-healthcheck  # by default, waits for "green"
 #        docker-healthcheck yellow # to wait for "yellow" instead
 
+echo "sleeping for stability"
+sleep 10
 target='green'
 if [ ! -z "$1" ]; then
   target="$1"

@@ -27,6 +27,7 @@ sudo systemctl restart docker
 # make docker run as a service
 sudo systemctl enable docker
 
+# Important: do on the server
 mkdir /home/alice/esdata
 
 #start

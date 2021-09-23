@@ -2,6 +2,9 @@
 
 set -e
 
+echo "sleeping for stability"
+sleep 5
+
 if [ -z "$ES_URL" ]; then
   echo "Missing env var ES_URL"
   exit 1
