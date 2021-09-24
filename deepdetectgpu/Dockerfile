@@ -1,0 +1,1 @@
+FROM jolibrain/deepdetect_gpu

@@ -9,6 +9,8 @@ docker push localhost:32000/fileserver
 docker push localhost:32000/fscrawler
 docker push localhost:32000/elasticsearch1
 docker push localhost:32000/elasticsearch-client
+docker push localhost:32000/deepdetectgpu
+
 
 kompose --volumes hostPath convert
 kompose --file docker-compose3.yml --volumes hostPath convert
@@ -18,6 +20,9 @@ microk8s.kubectl apply -f elasticsearch1-deployment.yaml,elasticsearch-client-de
 #microk8s.kubectl apply -f elasticsearch1-deployment.yaml
 microk8s.kubectl apply -f elasticsearch-client-service.yaml
 microk8s.kubectl apply -f elasticsearch-client-deployment.yaml
+
+microk8s.kubectl apply -f deepdetectgpu-service.yaml
+microk8s.kubectl apply -f deepdetectgpu-deployment.yaml
 
 microk8s kubectl get all --all-namespaces
 microk8s kubectl rollout restart deployment elasticsearch1
