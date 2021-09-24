@@ -45,6 +45,7 @@ spec:
             path: /home/alice/ownCloud/
           name: fscrawler-hostpath0
         - hostPath:
-            path: /media/tb2/docker-fscrawler/config/docker-compose
+#           path: /media/tb2/docker-fscrawler/config/docker-compose
+            path: /home/alice/git3/docker-fscrawler/config/docker-compose
           name: fscrawler-hostpath1
 status: {}
