@@ -7,12 +7,10 @@ import sys
 import time
 import os
 
-#currently the system creates duplicates so...
-os.system('curl -XDELETE localhost:9200/images')
+#to delete the index and start from scratch
+os.system('curl -XDELETE elasticsearch1:30920/images')
 
-#why deepdetectgpu:8080 and not elasticsearch1:8080?
-#because https://stackoverflow.com/questions/40440415/docker-compose-connection-refused-between-containers-but-service-accessible-fr
-url = "http://deepdetectgpu:8080/services/ilsvrc_googlenet"
+url = "http://elasticsearch1:30801/services/ilsvrc_googlenet"
 params = {
  "description": "image classification service",
  "model": {
@@ -51,7 +49,7 @@ for root, dirs, files in os.walk("/home/alice/ownCloud/"):
                     except:
                         print("could not open ", uri)
                         continue
-                    url = "http://deepdetectgpu:8080/predict"
+                    url = "http://elasticsearch1:30801/predict"
                     params = {"service":"ilsvrc_googlenet",
                         "parameters":
                             {
@@ -80,5 +78,3 @@ for root, dirs, files in os.walk("/home/alice/ownCloud/"):
         print("loop exiting via Ctrl+c")
         sys.exit(1) # break or raise
         
-#crawl once a day
-time.sleep(60 * 60 * 24 * 7 * 55)

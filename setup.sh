@@ -27,7 +27,9 @@ sudo systemctl restart docker
 # make docker run as a service
 sudo systemctl enable docker
 
+# Important: do on the server
 mkdir /home/alice/esdata
+mkdir sudo /opt/models/
 
 #start
 cd client
@@ -39,8 +41,10 @@ docker-compose up -d
 
 
 #https://www.deepdetect.com/tutorials/es-image-classifier/
+# create images index
+curl -X PUT "elasticsearch1:30920/images" -H 'Content-Type: application/json' -d'{ "settings" : { "index" : { } }}'
 
-curl -X PUT 'http://elasticsearch1:8080/services/ilsvrc_googlenet' -d '{
+curl -X PUT 'http://elasticsearch1:30801/services/ilsvrc_googlenet' -d '{
  "description": "image classification service",
  "model": {
   "repository": "/opt/models/ilsvrc_googlenet",
@@ -58,7 +62,7 @@ curl -X PUT 'http://elasticsearch1:8080/services/ilsvrc_googlenet' -d '{
 
 #test
 #cannot use localhost
-curl -X POST "http://elasticsearch1:8080/predict" -d '{
+curl -X POST "http://elasticsearch1:30801/predict" -d '{
        "service":"ilsvrc_googlenet",
        "parameters":{
          "mllib":{

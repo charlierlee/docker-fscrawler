@@ -15,7 +15,7 @@ services:
 #      context: ${PWD}/image_classify
 #    volumes:
 #    - /home/alice/ownCloud/:/home/alice/ownCloud/
-#    restart: always
+#    restart: unless-stopped
 #    depends_on:
 #      - deepdetectgpu
   elasticsearch-client:
@@ -25,7 +25,7 @@ services:
       dockerfile: ./Dockerfile
     ports:
         - "1358:1358"
-    restart: always
+    restart: unless-stopped
     depends_on:
       - fileserver
   fileserver:
@@ -36,7 +36,7 @@ services:
       - '3000:3000'
     volumes:
     - /home/alice/ownCloud/:/home/alice/ownCloud/
-    restart: always
+    restart: unless-stopped
   # fscrawler service for indexing a folder
   # Also check `fscrawlerrest` service for REST access
   fscrawler:
@@ -64,7 +64,7 @@ services:
       - --config_dir
       - /usr/share/fscrawler/config
       - docker-compose
-    restart: always
+    restart: unless-stopped
 #  deepdetectgpu:
 #    image: jolibrain/deepdetect_gpu
 #    ports:
@@ -77,7 +77,7 @@ services:
 #        reservations:
 #          devices:
 #          - capabilities: [gpu]
-#    restart: always
+#    restart: unless-stopped
 #    depends_on:
 #      elasticsearch1:
 #        condition: service_healthy
@@ -98,7 +98,7 @@ services:
       - discovery.type=single-node
       #- cluster.name=docker-cluster
       #- discovery.zen.ping.unicast.hosts=elasticsearch1
-    restart: always
+    restart: unless-stopped
   # service that serves .travis.yml to make curl calls to elasticsearch1 and fscrawler
   tester:
     image: localhost:32000/tester

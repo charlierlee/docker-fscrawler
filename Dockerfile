@@ -3,7 +3,7 @@
 # 2020-12-04: For 2.7-SNAPSHOT, upgraded from 16.04 to 20.04, and openjdk-8-jdk to openjdk-14-jdk
 FROM ubuntu:20.04
 
-RUN apt-get update && apt-get install -y openjdk-14-jdk wget unzip maven tesseract-ocr tesseract-ocr-fra
+RUN apt-get update && apt-get install -y openjdk-13-jdk wget unzip maven tesseract-ocr tesseract-ocr-fra
 
 RUN update-ca-certificates -f
 

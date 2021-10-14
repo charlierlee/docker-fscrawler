@@ -2,7 +2,8 @@
 # copied from https://github.com/docker-library/elasticsearch/blob/f2e19796b765e2e448d0e8c651d51be992b56d08/5/alpine/docker-entrypoint.sh
 
 set -e
-
+echo "sleeping for stability"
+sleep 30
 # Add fscrawler as command if needed
 # Note: The below just prefixes all the arguments with "fscrawler"
 # Ref
