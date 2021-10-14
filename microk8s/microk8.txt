@@ -13,7 +13,7 @@ docker push localhost:32000/elasticsearch-client
 kompose --volumes hostPath convert
 kompose --file docker-compose3.yml --volumes hostPath convert
 
-microk8s.kubectl apply -f elasticsearch1-deployment.yaml,elasticsearch-client-deployment.yaml,es-init-deployment.yaml,fileserver-service.yaml,tester-deployment.yaml,elasticsearch1-service.yaml,elasticsearch-client-service.yaml,fileserver-deployment.yaml,fscrawler-deployment.yaml
+microk8s.kubectl apply -f elasticsearch1-deployment.yaml,elasticsearch-client-deployment.yaml,es-init-deployment.yaml,fileserver-service.yaml,elasticsearch1-service.yaml,elasticsearch-client-service.yaml,fileserver-deployment.yaml,fscrawler-deployment.yaml
 #microk8s.kubectl apply -f fscrawler-deployment.yaml
 #microk8s.kubectl apply -f elasticsearch1-deployment.yaml
 microk8s.kubectl apply -f elasticsearch-client-service.yaml
@@ -91,3 +91,30 @@ curl -XPOST -d '{ "commands" : [ {
        "allow_primary":true 
      } 
   } ] }' http://localhost:9200/_cluster/reroute?pretty
+
+
+# how to add labels
+microk8s kubectl label deployment/elasticsearch-client release-version=1.0
+microk8s kubectl label deployment/es-init release-version=1.0
+microk8s kubectl label deployment/fileserver release-version=1.0
+microk8s kubectl label deployment/fscrawler release-version=1.0
+microk8s kubectl label deployment/deepdetectgpu release-version=1.0
+microk8s kubectl label deployment/elasticsearch1 release-version=1.0
+
+microk8s kubectl label service/elasticsearch-client release-version=1.0
+microk8s kubectl label service/fileserver release-version=1.0
+microk8s kubectl label service/deepdetectgpu release-version=1.0
+microk8s kubectl label service/elasticsearch1 release-version=1.0
+
+microk8s kubectl label pods/fileserver-8448b6c56-6jb7p release-version=1.0
+microk8s kubectl label pods/fscrawler-6fd87c8458-ffkdx release-version=1.0
+microk8s kubectl label pods/deepdetectgpu-75c7f4bdf-w5xjl release-version=1.0
+microk8s kubectl label pods/elasticsearch-client-855f4fd88-cgmjl release-version=1.0
+microk8s kubectl label pods/elasticsearch1-6788c48677-zx56v release-version=1.0
+microk8s kubectl label pods/es-init-6675fbbfdd-tdw28 release-version=1.0
+
+microk8s kubectl get all --selector release-version=1.0
+microk8s kubectl get all -l 'release-version in (1.0)' --show-labels
+
+microk8s kubectl get pods --selector release-version=1.0
+microk8s kubectl get pods -l 'release-version in (1.0)' --show-labels
