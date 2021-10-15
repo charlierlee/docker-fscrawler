@@ -1,49 +1,32 @@
 # Add the package repositories
+sudo apt install nvidia-cuda-toolkit
+# for use in image classification service
 
-wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin
-sudo mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600
-sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub
-sudo add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /"
-sudo apt-get update
-sudo apt-get -y install cuda
-#if fail: sudo apt clean; sudo apt update; sudo apt purge cuda; sudo apt purge nvidia-*; sudo apt autoremove; sudo apt install cuda
+install docker-compose via https://docs.docker.com/compose/install/
 
-#upgrade docker-compose
-VERSION=$(curl --silent https://api.github.com/repos/docker/compose/releases/latest | jq .name -r)
-DESTINATION=/usr/local/bin/docker-compose
-sudo curl -L https://github.com/docker/compose/releases/download/${VERSION}/docker-compose-$(uname -s)-$(uname -m) -o $DESTINATION
-sudo chmod 755 $DESTINATION
-
-#install nvidia-container-toolkit give docker-compose access to the gpu
-distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
-curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
-curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-
-sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit nvidia-container-runtime nvidia-docker2
-sudo systemctl restart docker
-#^ if docker-compose up fails, reboot
-
-#for docker-compose.yml restart: always feature,
-# make docker run as a service
-sudo systemctl enable docker
 
 # Important: do on the server
 mkdir /home/alice/esdata
-mkdir sudo /opt/models/
+sudo mkdir /opt/models/
 
 #start
 cd client
 npm install
 npm run buildprod
 cd ../
-docker-compose build elasticsearch_client
-docker-compose up -d
+docker-compose build
+#OR to redeploy just one part:
+#docker-compose build elasticsearch-client
+docker-compose up
 
+# go to microk8s/Readme.md for next steps then go back here
 
 #https://www.deepdetect.com/tutorials/es-image-classifier/
-# create images index
+# 1. create images index
 curl -X PUT "elasticsearch1:30920/images" -H 'Content-Type: application/json' -d'{ "settings" : { "index" : { } }}'
-
+# 2A. make sure you already did this: sudo apt install nvidia-cuda-toolkit
+# ^ This should have been done before microk8s enable gpu
+# 2B. create service for image classification
 curl -X PUT 'http://elasticsearch1:30801/services/ilsvrc_googlenet' -d '{
  "description": "image classification service",
  "model": {
@@ -60,8 +43,8 @@ curl -X PUT 'http://elasticsearch1:30801/services/ilsvrc_googlenet' -d '{
  }
 }'
 
-#test
-#cannot use localhost
+# 3. test a single image (does not show up in search engine)
+# go to step 4 to test
 curl -X POST "http://elasticsearch1:30801/predict" -d '{
        "service":"ilsvrc_googlenet",
        "parameters":{
@@ -84,5 +67,7 @@ curl -X POST "http://elasticsearch1:30801/predict" -d '{
        "data":["http://deepdetect.com/img/examples/interstellar.jpg"]
      }'
 
-#test
+# Step 4, test
 http://elasticsearch1:9200/images/_search?q=helmet
+
+# Step 5, run image_classify once. Note: If you run it twice you will get dups

@@ -7,7 +7,7 @@ metadata:
   creationTimestamp: null
   labels:
     io.kompose.service: elasticsearch1
-    release-version: 1.0
+    release-version: "1.0"
   name: elasticsearch1
 spec:
   type: NodePort

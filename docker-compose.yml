@@ -65,22 +65,26 @@ services:
       - /usr/share/fscrawler/config
       - docker-compose
     restart: unless-stopped
-#  deepdetectgpu:
-#    image: jolibrain/deepdetect_gpu
-#    ports:
-#      - 8080:8080
-#    volumes:
-#      - /home/alice/ownCloud/models/:/opt/models/
-#      - /home/alice/ownCloud/:/usr/share/fscrawler/data/:ro
-#    deploy:
-#      resources:
-#        reservations:
-#          devices:
-#          - capabilities: [gpu]
-#    restart: unless-stopped
-#    depends_on:
-#      elasticsearch1:
-#        condition: service_healthy
+  deepdetectgpu:
+    image: localhost:32000/deepdetectgpu
+    build:
+      context: ${PWD}/deepdetectgpu
+    ports:
+      - 8080:8080
+    volumes:
+      - /home/alice/ownCloud/models/:/opt/models/
+      - /home/alice/ownCloud/:/usr/share/fscrawler/data/:ro
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: 1
+            capabilities: [gpu]
+    restart: unless-stopped
+    depends_on:
+      elasticsearch1:
+        condition: service_healthy
   elasticsearch1:
     image: localhost:32000/elasticsearch1
     ports:

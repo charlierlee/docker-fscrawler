@@ -4,7 +4,15 @@
     "url" : "/usr/share/fscrawler/data",
     "filename_as_id" : true,
     "indexed_chars": -1,
-    "ignore_above": "50mb"
+    "ignore_above": "50mb",
+    "excludes": [
+      "/CameraUpload*",
+      "/CameraUpload - goodrat*",
+      "/InstantUpload - goodrat*",
+      "/TrainingImages*",
+      "/photos*"
+    ],
+    "update_rate": "24h"
   },
   "elasticsearch" : {
     "nodes" : [
