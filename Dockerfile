@@ -43,7 +43,8 @@ WORKDIR /usr/share/fscrawler
 ENV PATH /usr/share/fscrawler/bin:$PATH
 
 # ensure fscrawler user exists
-RUN addgroup --system fscrawler && adduser --system --ingroup fscrawler fscrawler
+# Create a user with UID 1000 and GID 1000
+RUN addgroup --system --gid 1000 fscrawler && adduser --system --ingroup fscrawler --uid 1000 fscrawler
 
 # grab su-exec (alpine) or gosu (ubuntu) for easy step-down from root
 # and bash for "bin/fscrawler" among others

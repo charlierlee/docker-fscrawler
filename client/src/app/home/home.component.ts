@@ -24,10 +24,9 @@ export class HomeComponent implements OnInit {
         'unSanitizedQuery': new FormControl()
     });
     indices: IndexChoice[] = [
-        {value: 'docker-compose', viewValue: 'owncloud'},
-        {value: 'images', viewValue: 'images'}
+        {value: 'docker-compose', viewValue: 'share'}
     ];
-    selectedIndex = 'images';
+    selectedIndex = 'docker-compose';
     public esData: any[] = [];
 
     /**
@@ -86,9 +85,11 @@ export class HomeComponent implements OnInit {
                         this.searchTime = body.hits.time;
                         this.totalPages = Math.ceil(body.hits.total / this.PER_PAGE);
                     } else {
+                        this.esData = [];
                         this.searchResponse = 'No matches found';
                     }
                 }, (err) => {
+                    this.esData = [];
                     this.searchResponse = 'Oops! Something went wrong... ERROR: ' + err.error;
                 });
             } else {
@@ -99,13 +100,16 @@ export class HomeComponent implements OnInit {
                         this.searchTime = body.took;
                         this.totalPages = Math.ceil(body.hits.total / this.PER_PAGE);
                     } else {
+                        this.esData = [];
                         this.searchResponse = 'No matches found';
                     }
                 }, (err) => {
+                    this.esData = [];
                     this.searchResponse = 'Oops! Something went wrong... ERROR: ' + err.error;
                 });
             }
         } else {
+            this.esData = [];
             this.searchResponse = 'Nothing found';
         }
 

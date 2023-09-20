@@ -14,12 +14,12 @@ services:
 #    build:
 #      context: ${PWD}/image_classify
 #    volumes:
-#    - /home/alice/ownCloud/:/home/alice/ownCloud/
+#    - /home/alice/share/:/home/alice/share/
 #    restart: unless-stopped
 #    depends_on:
 #      - deepdetectgpu
   elasticsearch-client:
-    image: localhost:32000/elasticsearch-client
+    image: master-0.local:32000/elasticsearch-client:1.0.108
     build:
       context: ${PWD}/client
       dockerfile: ./Dockerfile
@@ -29,18 +29,18 @@ services:
     depends_on:
       - fileserver
   fileserver:
-    image: localhost:32000/fileserver
+    image: master-0.local:32000/fileserver:1.0.108
     build:
       context: ${PWD}/file_server
     ports:
       - '3000:3000'
     volumes:
-    - /home/alice/ownCloud/:/home/alice/ownCloud/
+    - /home/alice/share/:/home/alice/share/
     restart: unless-stopped
   # fscrawler service for indexing a folder
   # Also check `fscrawlerrest` service for REST access
   fscrawler:
-    image: localhost:32000/fscrawler
+    image: master-0.local:32000/fscrawler:1.0.108
     build:
       # ubuntu as base image
       context: ${PWD}
@@ -48,7 +48,7 @@ services:
       # context: ${PWD}/alpine
     volumes:
     #- ${PWD}/test/data/:/usr/share/fscrawler/data/:ro
-    - /home/alice/ownCloud/:/usr/share/fscrawler/data/:ro
+    - /home/alice/share/:/usr/share/fscrawler/data/:ro
     - ${PWD}/config/docker-compose:/usr/share/fscrawler/config-mount/docker-compose
 
     # Despite the python tester having a built-in healthcheck at tests/es_acceptance.py#wait_for_cluster_health
@@ -65,28 +65,28 @@ services:
       - /usr/share/fscrawler/config
       - docker-compose
     restart: unless-stopped
-  deepdetectgpu:
-    image: localhost:32000/deepdetectgpu
-    build:
-      context: ${PWD}/deepdetectgpu
-    ports:
-      - 8080:8080
-    volumes:
-      - /home/alice/ownCloud/models/:/opt/models/
-      - /home/alice/ownCloud/:/usr/share/fscrawler/data/:ro
-    deploy:
-      resources:
-        reservations:
-          devices:
-          - driver: nvidia
-            count: 1
-            capabilities: [gpu]
-    restart: unless-stopped
-    depends_on:
-      elasticsearch1:
-        condition: service_healthy
+  #deepdetectgpu:
+  #  image: master-0.local:32000/deepdetectgpu:1.0.108
+  #  build:
+  #    context: ${PWD}/deepdetectgpu
+  #  ports:
+  #    - 8080:8080
+  #  volumes:
+  #    - /home/alice/share/models/:/opt/models/
+  #    - /home/alice/share/:/usr/share/fscrawler/data/:ro
+  #  deploy:
+  #    resources:
+  #      reservations:
+  #        devices:
+  #        - driver: nvidia
+  #          count: 1
+  #          capabilities: [gpu]
+  #  restart: unless-stopped
+  #  depends_on:
+  #    elasticsearch1:
+  #      condition: service_healthy
   elasticsearch1:
-    image: localhost:32000/elasticsearch1
+    image: master-0.local:32000/elasticsearch1:1.0.108
     ports:
       - "9200:9200"
     build:
@@ -105,22 +105,22 @@ services:
     restart: unless-stopped
   # service that serves .travis.yml to make curl calls to elasticsearch1 and fscrawler
   tester:
-    image: localhost:32000/tester
+    image: master-0.local:32000/tester:1.0.108
     build:
       context: ${PWD}/build/tester/
     volumes:
     #- ${PWD}/test/data/:/usr/share/fscrawler/data/:ro
-    - /home/alice/ownCloud/:/usr/share/fscrawler/data/:ro
+    - /home/alice/share/:/usr/share/fscrawler/data/:ro
 
   # worker service that uploads example pipeline
   es-init:
-    image: localhost:32000/es-init
+    image: master-0.local:32000/es-init:1.0.108
     build:
       context: ${PWD}/build/es_init/
     depends_on:
       - elasticsearch1
     environment:
-      - ES_URL=http://elasticsearch1:9200
+      - ES_URL=https://elasticsearch.leenet.link
 
 # do not need fscrawlerrest
   # cannot name service with underscores
@@ -133,7 +133,7 @@ services:
 
 #    volumes:
     #- ${PWD}/test/data/:/usr/share/fscrawler/data/:ro
-#    - /home/alice/ownCloud/:/usr/share/fscrawler/data/:ro
+#    - /home/alice/share/:/usr/share/fscrawler/data/:ro
 #    - ${PWD}/config/fscrawler_rest:/usr/share/fscrawler/config-mount/fscrawler_rest
     # check note above in fscrawler.depends_on
 #    depends_on:

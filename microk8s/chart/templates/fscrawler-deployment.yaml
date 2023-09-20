@@ -31,7 +31,7 @@ spec:
             - --config_dir
             - /usr/share/fscrawler/config
             - docker-compose
-          image: localhost:32000/fscrawler
+          image: master-0.local:32000/fscrawler:1.0.108
           name: fscrawler
           resources: {}
           volumeMounts:
@@ -43,10 +43,13 @@ spec:
       restartPolicy: Always
       volumes:
         - hostPath:
-            path: /home/alice/ownCloud/
+            path: /home/alice/share/
           name: fscrawler-hostpath0
         - hostPath:
 #           path: /media/tb2/docker-fscrawler/config/docker-compose
-            path: /home/alice/git3/docker-fscrawler/config/docker-compose
+#           path: /home/alice/git3/docker-fscrawler/config/docker-compose
+            path: /home/alice/docker-compose
           name: fscrawler-hostpath1
+      securityContext:
+        runAsUser: 1000
 status: {}

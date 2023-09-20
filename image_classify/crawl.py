@@ -8,9 +8,9 @@ import time
 import os
 
 #to delete the index and start from scratch
-os.system('curl -XDELETE elasticsearch1:30920/images')
+os.system('curl -XDELETE https://elasticsearch.leenet.link/images')
 
-url = "http://elasticsearch1:30801/services/ilsvrc_googlenet"
+url = "https://deepdetectgpu.leenet.link/services/ilsvrc_googlenet"
 params = {
  "description": "image classification service",
  "model": {
@@ -32,13 +32,13 @@ response = req.json()
 print(response)
 # traverse root directory, and list directories as dirs and files as files
 import os
-for root, dirs, files in os.walk("/home/alice/ownCloud/"):
+for root, dirs, files in os.walk("/home/alice/share/"):
     try:
         for file in files:
             try:
                 if file.endswith(".jpg"):
                     uri = os.path.join(root, file)
-                    virtual = uri.replace("/home/alice/ownCloud/","")
+                    virtual = uri.replace("/home/alice/share/","")
                     print(uri)
                     imgs = []
                     try:
@@ -49,7 +49,7 @@ for root, dirs, files in os.walk("/home/alice/ownCloud/"):
                     except:
                         print("could not open ", uri)
                         continue
-                    url = "http://elasticsearch1:30801/predict"
+                    url = "https://deepdetectgpu.leenet.link/predict"
                     params = {"service":"ilsvrc_googlenet",
                         "parameters":
                             {
@@ -61,7 +61,7 @@ for root, dirs, files in os.walk("/home/alice/ownCloud/"):
                                     "best":3,
                                     "template":"{ {{#body}}{{#predictions}} \"path\":{ \"virtual\":\"" + virtual + "\", \"real\":\"" + uri + "\"},\"categories\": [ {{#classes}} { \"category\":\"{{cat}}\",\"score\":{{prob}} } {{^last}},{{/last}}{{/classes}} ] {{/predictions}}{{/body}} }",
                                     "network":{
-                                        "url":"http://elasticsearch1:9200/images/img",
+                                        "url":"https://elasticsearch.leenet.link/images/img",
                                         "http_method":"POST"
                                     }
                                 }

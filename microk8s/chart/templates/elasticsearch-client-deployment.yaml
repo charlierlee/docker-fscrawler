@@ -6,16 +6,15 @@ metadata:
     kompose.version: 1.22.0 (955b78124)
   creationTimestamp: null
   labels:
-    io.kompose.service: fileserver
+    io.kompose.service: elasticsearch-client
     release-version: "1.0"
-  name: fileserver
+  name: elasticsearch-client
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: fileserver
-  strategy:
-    type: Recreate
+      io.kompose.service: elasticsearch-client
+  strategy: {}
   template:
     metadata:
       annotations:
@@ -23,20 +22,13 @@ spec:
         kompose.version: 1.22.0 (955b78124)
       creationTimestamp: null
       labels:
-        io.kompose.service: fileserver
+        io.kompose.service: elasticsearch-client
     spec:
       containers:
-        - image: localhost:32000/fileserver
-          name: fileserver
+        - image: master-0.local:32000/elasticsearch-client:1.0.108
+          name: elasticsearch-client
           ports:
-            - containerPort: 3000
+            - containerPort: 1358
           resources: {}
-          volumeMounts:
-            - mountPath: /home/alice/ownCloud/
-              name: fileserver-hostpath0
       restartPolicy: Always
-      volumes:
-        - hostPath:
-            path: /home/alice/ownCloud/
-          name: fileserver-hostpath0
 status: {}

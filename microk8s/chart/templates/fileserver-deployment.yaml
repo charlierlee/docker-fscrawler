@@ -6,15 +6,16 @@ metadata:
     kompose.version: 1.22.0 (955b78124)
   creationTimestamp: null
   labels:
-    io.kompose.service: es-init
+    io.kompose.service: fileserver
     release-version: "1.0"
-  name: es-init
+  name: fileserver
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: es-init
-  strategy: {}
+      io.kompose.service: fileserver
+  strategy:
+    type: Recreate
   template:
     metadata:
       annotations:
@@ -22,14 +23,20 @@ spec:
         kompose.version: 1.22.0 (955b78124)
       creationTimestamp: null
       labels:
-        io.kompose.service: es-init
+        io.kompose.service: fileserver
     spec:
       containers:
-        - env:
-            - name: ES_URL
-              value: http://elasticsearch1:9200
-          image: localhost:32000/es-init
-          name: es-init
+        - image: master-0.local:32000/fileserver:1.0.108
+          name: fileserver
+          ports:
+            - containerPort: 3000
           resources: {}
+          volumeMounts:
+            - mountPath: /home/alice/share/
+              name: fileserver-hostpath0
       restartPolicy: Always
+      volumes:
+        - hostPath:
+            path: /home/alice/share/
+          name: fileserver-hostpath0
 status: {}

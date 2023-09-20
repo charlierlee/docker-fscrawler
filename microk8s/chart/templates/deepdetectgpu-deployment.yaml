@@ -6,15 +6,16 @@ metadata:
     kompose.version: 1.22.0 (955b78124)
   creationTimestamp: null
   labels:
-    io.kompose.service: elasticsearch-client
+    io.kompose.service: deepdetectgpu
     release-version: "1.0"
-  name: elasticsearch-client
+  name: deepdetectgpu
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
-      io.kompose.service: elasticsearch-client
-  strategy: {}
+      io.kompose.service: deepdetectgpu
+  strategy:
+    type: Recreate
   template:
     metadata:
       annotations:
@@ -22,13 +23,20 @@ spec:
         kompose.version: 1.22.0 (955b78124)
       creationTimestamp: null
       labels:
-        io.kompose.service: elasticsearch-client
+        io.kompose.service: deepdetectgpu
     spec:
       containers:
-        - image: localhost:32000/elasticsearch-client
-          name: elasticsearch-client
+        - image: master-0.local:32000/deepdetectgpu:1.0.108
+          name: deepdetectgpu
           ports:
-            - containerPort: 1358
+            - containerPort: 8080
           resources: {}
+          volumeMounts:
+            - mountPath: /home/alice/share/
+              name: deepdetectgpu-hostpath0
       restartPolicy: Always
+      volumes:
+        - hostPath:
+            path: /home/alice/share/
+          name: deepdetectgpu-hostpath0
 status: {}

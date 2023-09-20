@@ -70,7 +70,7 @@ script:
 # Edit: 2018-01-03 issue 282 was closed and filename_as_id now applies to non-xml or non-json
 - docker-compose
    exec elasticsearch1
-   curl -XGET http://elasticsearch1:9200/docker-compose/doc/test.txt?pretty
+   curl -XGET https://elasticsearch.leenet.link/docker-compose/doc/test.txt?pretty
    > test/actual_doc_1.json
 - cat test/actual_doc_1.json | jq .
 - test `cat test/actual_doc_1.json | jq '.found'` == "true"
@@ -78,24 +78,24 @@ script:
 # Check contents of OCR test files
 - docker-compose
    exec elasticsearch1
-   curl -XGET http://elasticsearch1:9200/docker-compose/doc/image012.jpg?pretty
+   curl -XGET https://elasticsearch.leenet.link/docker-compose/doc/image012.jpg?pretty
    > test/actual_doc_2.json
 - cat test/actual_doc_2.json | jq .
 - test `cat test/actual_doc_2.json | jq '.found'` == "true"
 
 - docker-compose
    exec elasticsearch1
-   curl -XGET http://elasticsearch1:9200/docker-compose/doc/AT-1995.pdf?pretty
+   curl -XGET https://elasticsearch.leenet.link/docker-compose/doc/AT-1995.pdf?pretty
    > test/actual_doc_3.json
 - cat test/actual_doc_3.json | jq .
 - test `cat test/actual_doc_3.json | jq '.found'` == "true"
 
 # show that example pipeline uploaded
-- docker-compose exec tester curl -fsSL http://elasticsearch1:9200/_ingest/pipeline/example_pipeline?pretty
+- docker-compose exec tester curl -fsSL https://elasticsearch.leenet.link/_ingest/pipeline/example_pipeline?pretty
 
 # test that fscrawler used the pipeline
 # https://github.com/dadoonet/fscrawler/#using-ingest-node-pipeline
-- docker-compose exec tester curl -XGET http://elasticsearch1:9200/docker-compose/doc/test.txt?pretty > test/actual_doc_4.json
+- docker-compose exec tester curl -XGET https://elasticsearch.leenet.link/docker-compose/doc/test.txt?pretty > test/actual_doc_4.json
 - cat test/actual_doc_4.json | jq .
 - test `cat test/actual_doc_4.json | jq '.found'` == "true"
 - test `cat test/actual_doc_4.json | jq -r '._source.foo'` == "bar"

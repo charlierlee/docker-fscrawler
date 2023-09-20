@@ -29,7 +29,7 @@ spec:
         - env:
             - name: cluster.name
               value: docker-cluster
-          image: localhost:32000/elasticsearch1
+          image: master-0.local:32000/elasticsearch1:1.0.108
           name: elasticsearch1
           ports:
             - containerPort: 9200

@@ -6,17 +6,17 @@ metadata:
     kompose.version: 1.22.0 (955b78124)
   creationTimestamp: null
   labels:
-    io.kompose.service: elasticsearch1
+    io.kompose.service: elasticsearch-client
     release-version: "1.0"
-  name: elasticsearch1
+  name: elasticsearch-client
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
-    - name: "9200"
-      port: 9200
-      targetPort: 9200
-      nodePort: 30920
+    - port: 1358
+      targetPort: 1358
+      protocol: TCP
+      name: http
   selector:
-    io.kompose.service: elasticsearch1
+    io.kompose.service: elasticsearch-client
 status:
   loadBalancer: {}

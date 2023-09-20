@@ -4,7 +4,7 @@
 
 export const environment = {
   production          :   false,
-  ES_HOST             :   'http://elasticsearch1:30920',
+  ES_HOST             :   'https://elasticsearch.leenet.link',
   RESULTS_PER_PAGE    :   10
 };
 

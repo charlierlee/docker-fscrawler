@@ -40,13 +40,14 @@
     </thead>
     <tbody>
        <tr *ngFor="let item of esData">
-          <td><a target="_blank" href="{{ 'http://elasticsearch1:30001/' + item._source.path.virtual }}">{{item._source.path.virtual }}</a></td>
+          <td><a target="_blank" href="{{ 'https://fileserver.leenet.link/' + item._source.path.virtual }}">{{item._source.path.virtual }}</a></td>
        </tr>
     </tbody>
  </table>
  </div>
  <div *ngIf="selectedIndex == 'images'">
   <ul class="images">
-    <li *ngFor="let item of esData"><img width="200" src="{{ 'http://elasticsearch1:30001/' + item._source.path.virtual }}"/></li>
+    <li *ngFor="let item of esData"><img width="200" src="{{ 'https://fileserver.leenet.link/' + item._source.path.virtual }}"/></li>
   </ul>
 </div>
+<div>{{ searchResponse }}</div>

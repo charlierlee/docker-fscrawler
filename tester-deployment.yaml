@@ -25,7 +25,7 @@ spec:
         io.kompose.service: tester
     spec:
       containers:
-        - image: localhost:32000/tester
+        - image: master-0.local:32000/tester:1.0.108
           name: tester
           resources: {}
           volumeMounts:
@@ -35,6 +35,6 @@ spec:
       restartPolicy: Always
       volumes:
         - hostPath:
-            path: /home/alice/ownCloud/
+            path: /home/alice/share/
           name: tester-hostpath0
 status: {}

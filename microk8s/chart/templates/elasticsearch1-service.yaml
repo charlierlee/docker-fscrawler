@@ -6,17 +6,17 @@ metadata:
     kompose.version: 1.22.0 (955b78124)
   creationTimestamp: null
   labels:
-    io.kompose.service: deepdetectgpu
+    io.kompose.service: elasticsearch1
     release-version: "1.0"
-  name: deepdetectgpu
+  name: elasticsearch1
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
-    - name: "8080"
-      port: 8080
-      targetPort: 8080
-      nodePort: 30801
+    - port: 9200
+      targetPort: 9200
+      protocol: TCP
+      name: http
   selector:
-    io.kompose.service: deepdetectgpu
+    io.kompose.service: elasticsearch1
 status:
   loadBalancer: {}

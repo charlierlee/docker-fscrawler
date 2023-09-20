@@ -4,10 +4,10 @@ var app = express();
 var cors = require('cors')
 
 app.use(cors({
-    origin: 'http://elasticsearch1:31358'
+    origin: 'https://search.leenet.link'
 }));
-app.use(express.static('/home/alice/ownCloud'));
+app.use(express.static('/home/alice/share'));
 
 app.listen(3000, function () {
-    console.log('Listening on http://elasticsearch1:3000/');
+    console.log('Listening on http://elasticsearch-client:3000/');
 });

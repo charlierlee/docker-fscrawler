@@ -6,17 +6,17 @@ metadata:
     kompose.version: 1.22.0 (955b78124)
   creationTimestamp: null
   labels:
-    io.kompose.service: fileserver
+    io.kompose.service: deepdetectgpu
     release-version: "1.0"
-  name: fileserver
+  name: deepdetectgpu
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
-    - name: "3000"
-      port: 3000
-      targetPort: 3000
-      nodePort: 30001
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: http
   selector:
-    io.kompose.service: fileserver
+    io.kompose.service: deepdetectgpu
 status:
   loadBalancer: {}
